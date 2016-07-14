@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="WXProgressWindow" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g4H-G3-n96">
+                                <rect key="frame" x="198" y="285" width="204" height="30"/>
+                                <state key="normal" title="带Navigation的ViewController"/>
+                                <connections>
+                                    <action selector="btnPresentTouch:" destination="BYZ-38-t0r" eventType="touchUpInside" id="CHt-M0-Bwy"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rjt-yy-cMl">
+                                <rect key="frame" x="190.5" y="212" width="219" height="30"/>
+                                <state key="normal" title="不带Navigation的ViewController"/>
+                                <connections>
+                                    <action selector="btnPresentNoNavTouch:" destination="BYZ-38-t0r" eventType="touchUpInside" id="UUd-3J-2cB"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="g4H-G3-n96" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="GeE-V7-dIs"/>
+                            <constraint firstItem="Rjt-yy-cMl" firstAttribute="centerX" secondItem="g4H-G3-n96" secondAttribute="centerX" id="UCk-t3-yf9"/>
+                            <constraint firstItem="g4H-G3-n96" firstAttribute="top" secondItem="Rjt-yy-cMl" secondAttribute="bottom" constant="43" id="Xya-wW-LxO"/>
+                            <constraint firstItem="g4H-G3-n96" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="tiN-KP-3GF"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+        <!--展示进度(有navigation)-->
+        <scene sceneID="3AD-Gt-O7q">
+            <objects>
+                <viewController storyboardIdentifier="TestViewController" id="F3z-kb-Xhb" customClass="TestViewController" customModule="WXProgressWindow" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="QrT-EE-4hZ"/>
+                        <viewControllerLayoutGuide type="bottom" id="Ic2-fR-uXb"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="6Ja-0l-C17">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="GPy-hW-pNS">
+                                <rect key="frame" x="50" y="299" width="500" height="2"/>
+                            </progressView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QVO-SX-eHm">
+                                <rect key="frame" x="270" y="371" width="60" height="30"/>
+                                <state key="normal" title="模拟下载"/>
+                                <connections>
+                                    <action selector="btnStartTouch:" destination="F3z-kb-Xhb" eventType="touchUpInside" id="QSS-as-UzC"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="acO-Ub-Mfm">
+                                <rect key="frame" x="288.5" y="256" width="23.5" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="QVO-SX-eHm" firstAttribute="centerX" secondItem="6Ja-0l-C17" secondAttribute="centerX" id="01l-gb-3zY"/>
+                            <constraint firstItem="GPy-hW-pNS" firstAttribute="top" secondItem="acO-Ub-Mfm" secondAttribute="bottom" constant="22" id="2Do-Zd-81v"/>
+                            <constraint firstItem="GPy-hW-pNS" firstAttribute="centerY" secondItem="6Ja-0l-C17" secondAttribute="centerY" id="8vo-AI-slf"/>
+                            <constraint firstItem="QVO-SX-eHm" firstAttribute="top" secondItem="GPy-hW-pNS" secondAttribute="bottom" constant="70" id="ITW-Tm-R5g"/>
+                            <constraint firstItem="acO-Ub-Mfm" firstAttribute="centerX" secondItem="6Ja-0l-C17" secondAttribute="centerX" id="JWA-aG-RXo"/>
+                            <constraint firstItem="GPy-hW-pNS" firstAttribute="leading" secondItem="6Ja-0l-C17" secondAttribute="leading" constant="50" id="Mmd-8i-6vG"/>
+                            <constraint firstAttribute="trailing" secondItem="GPy-hW-pNS" secondAttribute="trailing" constant="50" id="R6X-kG-vAk"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="展示进度(有navigation)" id="a7C-WV-IQa">
+                        <barButtonItem key="leftBarButtonItem" title="取消" id="uDN-Qj-1RE">
+                            <connections>
+                                <action selector="btnCancelTouch:" destination="F3z-kb-Xhb" id="OoC-tV-hsO"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="隐藏" id="DLQ-UF-0nz">
+                            <connections>
+                                <action selector="btnHideTouch:" destination="F3z-kb-Xhb" id="yyC-fr-woo"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="labelProgress" destination="acO-Ub-Mfm" id="aLK-eB-gqU"/>
+                        <outlet property="progress" destination="GPy-hW-pNS" id="ZLZ-79-E6Y"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2SL-zi-4e7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1152" y="268"/>
+        </scene>
+        <!--Test No Nav View Controller-->
+        <scene sceneID="hjh-m8-dg7">
+            <objects>
+                <viewController storyboardIdentifier="TestNoNavViewController" id="Fap-zF-p4V" customClass="TestNoNavViewController" customModule="WXProgressWindow" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="uuC-6i-wZB"/>
+                        <viewControllerLayoutGuide type="bottom" id="Ln6-d4-Q0L"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="wJ5-JU-5mr">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sUf-R4-edN">
+                                <rect key="frame" x="550" y="28" width="30" height="30"/>
+                                <state key="normal" title="隐藏"/>
+                                <connections>
+                                    <action selector="btnHideTouch:" destination="Fap-zF-p4V" eventType="touchUpInside" id="KTV-xY-2vg"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="展示进度(无navigation)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6f8-xQ-Rbl">
+                                <rect key="frame" x="213" y="32" width="175" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q97-Vx-er1">
+                                <rect key="frame" x="270" y="377" width="60" height="30"/>
+                                <state key="normal" title="模拟下载"/>
+                                <connections>
+                                    <action selector="btnStartTouch:" destination="Fap-zF-p4V" eventType="touchUpInside" id="lsb-GO-p6I"/>
+                                </connections>
+                            </button>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="5sk-8Q-I0w">
+                                <rect key="frame" x="50" y="299" width="500" height="2"/>
+                            </progressView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="22K-Ip-ido">
+                                <rect key="frame" x="20" y="28" width="30" height="30"/>
+                                <state key="normal" title="取消"/>
+                                <connections>
+                                    <action selector="btnCancelTouch:" destination="Fap-zF-p4V" eventType="touchUpInside" id="cHT-zh-sZB"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TQl-Yf-b6k">
+                                <rect key="frame" x="288.5" y="257" width="23.5" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Q97-Vx-er1" firstAttribute="centerX" secondItem="5sk-8Q-I0w" secondAttribute="centerX" id="1Nc-is-ez3"/>
+                            <constraint firstItem="6f8-xQ-Rbl" firstAttribute="centerX" secondItem="wJ5-JU-5mr" secondAttribute="centerX" id="87S-Tc-LA6"/>
+                            <constraint firstItem="sUf-R4-edN" firstAttribute="trailing" secondItem="wJ5-JU-5mr" secondAttribute="trailingMargin" id="Cza-vM-Uxy"/>
+                            <constraint firstAttribute="trailing" secondItem="5sk-8Q-I0w" secondAttribute="trailing" constant="50" id="HB5-Ae-3H5"/>
+                            <constraint firstItem="Q97-Vx-er1" firstAttribute="top" secondItem="5sk-8Q-I0w" secondAttribute="bottom" constant="76" id="MVa-f5-aG2"/>
+                            <constraint firstItem="5sk-8Q-I0w" firstAttribute="centerX" secondItem="wJ5-JU-5mr" secondAttribute="centerX" id="Nz0-hG-d33"/>
+                            <constraint firstItem="TQl-Yf-b6k" firstAttribute="centerX" secondItem="5sk-8Q-I0w" secondAttribute="centerX" id="OZ3-nu-QQU"/>
+                            <constraint firstItem="5sk-8Q-I0w" firstAttribute="leading" secondItem="wJ5-JU-5mr" secondAttribute="leading" constant="50" id="UEO-ny-D9E"/>
+                            <constraint firstItem="6f8-xQ-Rbl" firstAttribute="baseline" secondItem="sUf-R4-edN" secondAttribute="baseline" id="Xqh-Sy-nRX"/>
+                            <constraint firstItem="22K-Ip-ido" firstAttribute="baseline" secondItem="6f8-xQ-Rbl" secondAttribute="baseline" id="c4J-Xc-ZJS"/>
+                            <constraint firstItem="5sk-8Q-I0w" firstAttribute="top" secondItem="TQl-Yf-b6k" secondAttribute="bottom" constant="21" id="eWM-Ws-JSZ"/>
+                            <constraint firstItem="22K-Ip-ido" firstAttribute="top" secondItem="uuC-6i-wZB" secondAttribute="bottom" constant="8" symbolic="YES" id="fIM-8s-wvC"/>
+                            <constraint firstItem="22K-Ip-ido" firstAttribute="leading" secondItem="wJ5-JU-5mr" secondAttribute="leadingMargin" id="hQm-mL-jdF"/>
+                            <constraint firstItem="5sk-8Q-I0w" firstAttribute="centerY" secondItem="wJ5-JU-5mr" secondAttribute="centerY" id="ilY-zh-faS"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="labelProgress" destination="TQl-Yf-b6k" id="9uV-tD-RFS"/>
+                        <outlet property="progress" destination="5sk-8Q-I0w" id="ZQj-K0-mho"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FAR-rB-IxN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1778" y="268"/>
+        </scene>
+    </scenes>
+</document>
