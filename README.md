@@ -6,19 +6,22 @@ A progress window hide presented view controller of background work with progres
 
 ![Demo.gif](https://github.com/luowenxing/WXProgressWindow/blob/master/WXProgressWindow/Demo/demo.gif)
 
+# Installation
+There is no other dependecy in it.Just add WXProgressWindow folder to your project.
+
 # Usage
 * Implement delegate method.
 ```
-@objc protocol ProgressWindowManagerDelegate:NSObjectProtocol {
+@objc protocol WXProgressWindowManagerDelegate:NSObjectProtocol {
     func currentProgress() -> Float
     optional func currentProgressText() -> String?
 }
 ```
 * Init `ProgressWindowManager` in view controller to present.
 ```
-private lazy var progressManager:ProgressWindowManager = {
+private lazy var progressManager:WXProgressWindowManager = {
   //Pass self.navigationController! to rootViewController if your view controller is wrapped in a navigationController.
-  let manager = ProgressWindowManager(rootViewController: self, delegate: self)
+  let manager = WXProgressWindowManager(rootViewController: self, delegate: self)
   //manager.arcColor = UIColor.redColor()
   //manager.cycleColor = UIColor.grayColor()
   //manager.fontSize = 13
@@ -27,6 +30,6 @@ private lazy var progressManager:ProgressWindowManager = {
 }()
 ```
 * Call instance function `showProgressWindow()` to hide your view controller and show the progress window.
-* Call instance function `dismissProgressWindow()` to dismiss your view controller.
+* Call instance function `dismissProgressWindow()` to dismiss your view controller and destory progress window.
 
 
