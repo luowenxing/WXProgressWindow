@@ -38,12 +38,48 @@ class ProgressWindow:UIWindow {
 
 class ProgressWindowManager:NSObject,UIViewControllerTransitioningDelegate,ProgressViewControllerDelegate {
     
+    deinit {
+        NSLog("deinit ProgressWindowManager")
+    }
+    
+    var progressRect:CGRect {
+        get {
+            return self.progressVC.progressRect
+        }
+        set {
+            self.progressVC.progressRect = newValue
+        }
+    }
+    var cycleColor:UIColor {
+        get {
+            return self.progressVC.cycleColor
+        }
+        set {
+            self.progressVC.cycleColor = newValue
+        }
+    }
+    var arcColor:UIColor  {
+        get {
+            return self.progressVC.arcColor
+        }
+        set {
+            self.progressVC.arcColor = newValue
+        }
+    }
+    var fontSize:CGFloat  {
+        get {
+            return self.progressVC.fontSize
+        }
+        set {
+            self.progressVC.fontSize = newValue
+        }
+    }
     
     var status:ProgressWindowStatus = .InitialView
-    
-    private var rootViewController:UIViewController!
+    private weak var rootViewController:UIViewController!
     private weak var delegate:ProgressWindowManagerDelegate?
     private lazy var progressVC:ProgressViewController = ProgressViewController(delegate: self)
+    private lazy var snapView:UIView = self.rootViewController.view.snapshotViewAfterScreenUpdates(false)
     private lazy var window:ProgressWindow = {
         let window = ProgressWindow(frame: UIScreen.mainScreen().bounds)
         window.backgroundColor = UIColor.clearColor()
@@ -54,30 +90,32 @@ class ProgressWindowManager:NSObject,UIViewControllerTransitioningDelegate,Progr
     
     init(rootViewController:UIViewController,delegate:ProgressWindowManagerDelegate) {
         super.init()
-        let nc = UINavigationController(rootViewController: rootViewController)
-        nc.navigationBarHidden = true
-        self.rootViewController = nc
+        self.rootViewController = rootViewController
         self.delegate = delegate
-        rootViewController.transitioningDelegate = self
     }
-    
-    init(navigationController:UINavigationController,delegate:ProgressWindowManagerDelegate) {
-        super.init()
-        self.rootViewController = navigationController
-        self.delegate = delegate
-        navigationController.transitioningDelegate = self
-    }
-    
     
     func showProgressView() {
         if self.status == .InitialView {
-            window.hidden = false
-            window.rootViewController = rootViewController
+            if self.window.hidden {
+                self.window.addSubview(self.snapView)
+                self.window.hidden = false
+                // 在window上增加一个snapView防止闪屏
+                self.performSelector(#selector(ProgressWindowManager.showProgressView), withObject: nil, afterDelay: 0.05)
+                return
+            }
             self.status = .RootView
+            self.rootViewController.dismissViewControllerAnimated(false) {
+                self.window.rootViewController = self.rootViewController
+                // 防止闪屏
+                self.performSelector(#selector(ProgressWindowManager.showProgressView), withObject: nil, afterDelay: 0)
+            }
         }
-        if self.status == .RootView{
+        else if self.status == .RootView{
             self.status = .ProgressView
             self.progressVC.transitioningDelegate = self
+            //view已经增加到window上，把snapView remove
+            self.snapView.removeFromSuperview()
+            self.rootViewController.transitioningDelegate = self
             self.rootViewController.presentViewController(self.progressVC, animated: true) {
                 if self.progressVC.view.window == nil {
                     // iOS8以上的bug,present之后又present一个view，这个view不会被加到window上，需要手动添加
@@ -110,7 +148,10 @@ class ProgressWindowManager:NSObject,UIViewControllerTransitioningDelegate,Progr
     }
     
     func dismissProgressView() {
-        if self.status == .RootView {
+        if self.status == .InitialView {
+            self.rootViewController.dismissViewControllerAnimated(true, completion: nil)
+        }
+        else if self.status == .RootView {
             UIView.animateWithDuration(0.35, delay: 0, options: .CurveEaseInOut , animations: {
                 if NSFoundationVersionNumber < NSFoundationVersionNumber_iOS_8_0 {
                     if self.rootViewController.interfaceOrientation.isPortrait {
@@ -127,8 +168,6 @@ class ProgressWindowManager:NSObject,UIViewControllerTransitioningDelegate,Progr
                 self.window.rootViewController = nil
             }
         }
-        
-        self.rootViewController = nil
     }
     
     func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {

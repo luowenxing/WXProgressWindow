@@ -35,19 +35,17 @@ class TestNoNavViewController:UIViewController,ProgressWindowManagerDelegate {
     
     
     //MARK:ProgressWindowManager
-    private lazy var progressManager:ProgressWindowManager = ProgressWindowManager(rootViewController: self, delegate:self)
+    private lazy var progressManager:ProgressWindowManager! = ProgressWindowManager(rootViewController: self, delegate:self)
     
     func currentProgress() -> Float {
         return progress.progress
     }
     
     @IBAction func btnHideTouch(sender: AnyObject) {
-        self.dismissViewControllerAnimated(false, completion: nil)
         self.progressManager.showProgressView()
     }
     
     @IBAction func btnCancelTouch(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
         self.progressManager.dismissProgressView()
     }
     
