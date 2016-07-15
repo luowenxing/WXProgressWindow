@@ -6,15 +6,14 @@ A progress window hide presented view controller of background work with progres
 ![Demo.gif](https://github.com/luowenxing/WXProgressWindow/blob/master/WXProgressWindow/Demo/demo.gif)
 
 # Usage
-1. Implement delegate method.
+* Implement delegate method.
 ```
 @objc protocol ProgressWindowManagerDelegate:NSObjectProtocol {
     func currentProgress() -> Float
     optional func currentProgressText() -> String?
 }
 ```
-
-2. Lazy Init `ProgressWindowManager` in `viewController` to present.You should choose a `init` function depending on whether you need a `navigationController` (explictly `navigationBar`).
+* Lazy Init `ProgressWindowManager` in `viewController` to present.You should choose a `init` function depending on whether you need a `navigationController` (explictly `navigationBar`).
   * `init(rootViewController:UIViewController,delegate:ProgressWindowManagerDelegate)` has no `navigationBar`
   * `init(navigationController:UINavigationController,delegate:ProgressWindowManagerDelegate)` has `navigationBar`
 ```
@@ -28,8 +27,7 @@ private lazy var progressManager:ProgressWindowManager = {
   return manager
 }()
 ```
-
-3. Add following code at the function of hiding view controller which will show the progress window.
+* Add following code at the function of hiding view controller which will show the progress window.
 ```
 @IBAction func btnHideTouch(sender: AnyObject) {
     self.dismissViewControllerAnimated(false, completion: nil)
@@ -37,8 +35,7 @@ private lazy var progressManager:ProgressWindowManager = {
     self.progressManager.showProgressView()
 }
 ```
-
-4. Add `dismissProgressView` **right after** `dismissViewControllerAnimated` every time you want to exit the view controller
+* Add `dismissProgressView` **right after** `dismissViewControllerAnimated` every time you want to exit the view controller
 ```
 @IBAction func btnCancelTouch(sender: AnyObject) {
     self.dismissViewControllerAnimated(true, completion: nil)
