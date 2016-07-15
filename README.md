@@ -17,7 +17,7 @@ There is no other dependecy in it.Just add WXProgressWindow folder to your proje
     optional func currentProgressText() -> String?
 }
 ```
-* Init `ProgressWindowManager` in view controller to present.
+* Init `WXProgressWindowManager` in view controller to present.
 ```
 private lazy var progressManager:WXProgressWindowManager = {
   //Pass self.navigationController! to rootViewController if your view controller is wrapped in a navigationController.
