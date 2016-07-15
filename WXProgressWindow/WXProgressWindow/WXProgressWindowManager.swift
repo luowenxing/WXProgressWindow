@@ -8,20 +8,20 @@
 
 import UIKit
 
-enum ProgressWindowStatus {
+enum WXProgressWindowStatus {
     case InitialView
     case RootView
     case ProgressView
     
 }
 
-class ProgressWindow:UIWindow {
-    weak var manager:ProgressWindowManager!
+class WXProgressWindow:UIWindow {
+    weak var manager:WXProgressWindowManager!
     override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
         let hitView = super.hitTest(point, withEvent: event)
         //显示悬浮窗时，只响应悬浮窗区域的手势事件
         if let m = self.manager where m.status == .ProgressView {
-            if let _ = hitView as? ProgressView {
+            if let _ = hitView as? WXProgressView {
                 return hitView
             } else {
                 return nil
@@ -31,12 +31,12 @@ class ProgressWindow:UIWindow {
     }
 }
 
-@objc protocol ProgressWindowManagerDelegate:NSObjectProtocol {
+@objc protocol WXProgressWindowManagerDelegate:NSObjectProtocol {
     func currentProgress() -> Float
     optional func currentProgressText() -> String?
 }
 
-class ProgressWindowManager:NSObject,UIViewControllerTransitioningDelegate,ProgressViewControllerDelegate {
+class WXProgressWindowManager:NSObject,UIViewControllerTransitioningDelegate,WXProgressViewControllerDelegate {
     
     deinit {
         NSLog("deinit ProgressWindowManager")
@@ -75,39 +75,39 @@ class ProgressWindowManager:NSObject,UIViewControllerTransitioningDelegate,Progr
         }
     }
     
-    var status:ProgressWindowStatus = .InitialView
+    var status:WXProgressWindowStatus = .InitialView
     private weak var rootViewController:UIViewController!
-    private weak var delegate:ProgressWindowManagerDelegate?
-    private lazy var progressVC:ProgressViewController = ProgressViewController(delegate: self)
+    private weak var delegate:WXProgressWindowManagerDelegate?
+    private lazy var progressVC:WXProgressViewController = WXProgressViewController(delegate: self)
     private lazy var snapView:UIView = self.rootViewController.view.snapshotViewAfterScreenUpdates(false)
-    private lazy var window:ProgressWindow = {
-        let window = ProgressWindow(frame: UIScreen.mainScreen().bounds)
+    private lazy var window:WXProgressWindow = {
+        let window = WXProgressWindow(frame: UIScreen.mainScreen().bounds)
         window.backgroundColor = UIColor.clearColor()
         window.layer.masksToBounds = true
         window.manager = self
         return window
     }()
     
-    init(rootViewController:UIViewController,delegate:ProgressWindowManagerDelegate) {
+    init(rootViewController:UIViewController,delegate:WXProgressWindowManagerDelegate) {
         super.init()
         self.rootViewController = rootViewController
         self.delegate = delegate
     }
     
-    func showProgressView() {
+    func showProgressWindow() {
         if self.status == .InitialView {
             if self.window.hidden {
                 self.window.addSubview(self.snapView)
                 self.window.hidden = false
                 // 在window上增加一个snapView防止闪屏
-                self.performSelector(#selector(ProgressWindowManager.showProgressView), withObject: nil, afterDelay: 0.05)
+                self.performSelector(#selector(WXProgressWindowManager.showProgressWindow), withObject: nil, afterDelay: 0.05)
                 return
             }
             self.status = .RootView
             self.rootViewController.dismissViewControllerAnimated(false) {
                 self.window.rootViewController = self.rootViewController
                 // 防止闪屏
-                self.performSelector(#selector(ProgressWindowManager.showProgressView), withObject: nil, afterDelay: 0)
+                self.performSelector(#selector(WXProgressWindowManager.showProgressWindow), withObject: nil, afterDelay: 0)
             }
         }
         else if self.status == .RootView{
@@ -147,7 +147,7 @@ class ProgressWindowManager:NSObject,UIViewControllerTransitioningDelegate,Progr
         progressVC.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    func dismissProgressView() {
+    func dismissProgressWindow() {
         if self.status == .InitialView {
             self.rootViewController.dismissViewControllerAnimated(true, completion: nil)
         }
@@ -171,11 +171,11 @@ class ProgressWindowManager:NSObject,UIViewControllerTransitioningDelegate,Progr
     }
     
     func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return ProgressCircleTransition(type: .Dismiss)
+        return WXProgressCircleTransition(type: .Dismiss)
     }
     
     func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return ProgressCircleTransition(type: .Present)
+        return WXProgressCircleTransition(type: .Present)
     }
     
 }

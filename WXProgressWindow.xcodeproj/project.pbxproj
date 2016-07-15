@@ -13,10 +13,10 @@
 		B175CDFC1D37961D009B5D52 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B175CDF51D37961D009B5D52 /* Info.plist */; };
 		B175CDFD1D37961D009B5D52 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B175CDF61D37961D009B5D52 /* ViewController.swift */; };
 		B175CDFF1D379651009B5D52 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B175CDFE1D379651009B5D52 /* LaunchScreen.storyboard */; };
-		B175CE011D3796F3009B5D52 /* ProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B175CE001D3796F3009B5D52 /* ProgressViewController.swift */; };
+		B175CE011D3796F3009B5D52 /* WXProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B175CE001D3796F3009B5D52 /* WXProgressViewController.swift */; };
 		B175CE031D379735009B5D52 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B175CE021D379735009B5D52 /* Extensions.swift */; };
-		B175CE051D37A654009B5D52 /* ProgressWindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B175CE041D37A654009B5D52 /* ProgressWindowManager.swift */; };
-		B175CE071D37A6DC009B5D52 /* ProgressCircleTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = B175CE061D37A6DC009B5D52 /* ProgressCircleTransition.swift */; };
+		B175CE051D37A654009B5D52 /* WXProgressWindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B175CE041D37A654009B5D52 /* WXProgressWindowManager.swift */; };
+		B175CE071D37A6DC009B5D52 /* WXProgressCircleTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = B175CE061D37A6DC009B5D52 /* WXProgressCircleTransition.swift */; };
 		B175CE091D37A904009B5D52 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B175CE081D37A904009B5D52 /* TestViewController.swift */; };
 		B175CE0B1D37BB27009B5D52 /* TestNoNavViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B175CE0A1D37BB27009B5D52 /* TestNoNavViewController.swift */; };
 /* End PBXBuildFile section */
@@ -29,10 +29,10 @@
 		B175CDF51D37961D009B5D52 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B175CDF61D37961D009B5D52 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		B175CDFE1D379651009B5D52 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		B175CE001D3796F3009B5D52 /* ProgressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressViewController.swift; sourceTree = "<group>"; };
+		B175CE001D3796F3009B5D52 /* WXProgressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WXProgressViewController.swift; sourceTree = "<group>"; };
 		B175CE021D379735009B5D52 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		B175CE041D37A654009B5D52 /* ProgressWindowManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressWindowManager.swift; sourceTree = "<group>"; };
-		B175CE061D37A6DC009B5D52 /* ProgressCircleTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressCircleTransition.swift; sourceTree = "<group>"; };
+		B175CE041D37A654009B5D52 /* WXProgressWindowManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WXProgressWindowManager.swift; sourceTree = "<group>"; };
+		B175CE061D37A6DC009B5D52 /* WXProgressCircleTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WXProgressCircleTransition.swift; sourceTree = "<group>"; };
 		B175CE081D37A904009B5D52 /* TestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		B175CE0A1D37BB27009B5D52 /* TestNoNavViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestNoNavViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -91,9 +91,9 @@
 		B175CDF71D37961D009B5D52 /* WXProgressWindow */ = {
 			isa = PBXGroup;
 			children = (
-				B175CE041D37A654009B5D52 /* ProgressWindowManager.swift */,
-				B175CE001D3796F3009B5D52 /* ProgressViewController.swift */,
-				B175CE061D37A6DC009B5D52 /* ProgressCircleTransition.swift */,
+				B175CE041D37A654009B5D52 /* WXProgressWindowManager.swift */,
+				B175CE001D3796F3009B5D52 /* WXProgressViewController.swift */,
+				B175CE061D37A6DC009B5D52 /* WXProgressCircleTransition.swift */,
 				B175CE021D379735009B5D52 /* Extensions.swift */,
 			);
 			path = WXProgressWindow;
@@ -174,10 +174,10 @@
 				B175CE091D37A904009B5D52 /* TestViewController.swift in Sources */,
 				B175CE0B1D37BB27009B5D52 /* TestNoNavViewController.swift in Sources */,
 				B175CDFD1D37961D009B5D52 /* ViewController.swift in Sources */,
-				B175CE071D37A6DC009B5D52 /* ProgressCircleTransition.swift in Sources */,
-				B175CE011D3796F3009B5D52 /* ProgressViewController.swift in Sources */,
+				B175CE071D37A6DC009B5D52 /* WXProgressCircleTransition.swift in Sources */,
+				B175CE011D3796F3009B5D52 /* WXProgressViewController.swift in Sources */,
 				B175CDF81D37961D009B5D52 /* AppDelegate.swift in Sources */,
-				B175CE051D37A654009B5D52 /* ProgressWindowManager.swift in Sources */,
+				B175CE051D37A654009B5D52 /* WXProgressWindowManager.swift in Sources */,
 				B175CE031D379735009B5D52 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

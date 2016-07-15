@@ -9,16 +9,16 @@
 import UIKit
 
 
-enum ProgressCircleTransitionType {
+enum WXProgressCircleTransitionType {
     case Present
     case Dismiss
 }
 
-class ProgressCircleTransition:NSObject,UIViewControllerAnimatedTransitioning {
+class WXProgressCircleTransition:NSObject,UIViewControllerAnimatedTransitioning {
     
-    var type:ProgressCircleTransitionType
+    var type:WXProgressCircleTransitionType
     
-    init(type:ProgressCircleTransitionType) {
+    init(type:WXProgressCircleTransitionType) {
         self.type = type
     }
     
@@ -39,7 +39,7 @@ class ProgressCircleTransition:NSObject,UIViewControllerAnimatedTransitioning {
     }
     
     private func animateTransitionPresent(transitionContext: UIViewControllerContextTransitioning) {
-        guard let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey),toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) as? ProgressViewController else {
+        guard let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey),toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) as? WXProgressViewController else {
             return
         }
         if let containerView = transitionContext.containerView() {
@@ -70,7 +70,7 @@ class ProgressCircleTransition:NSObject,UIViewControllerAnimatedTransitioning {
     }
     
     private func animateTransitionDismiss(transitionContext: UIViewControllerContextTransitioning) {
-        guard let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) as? ProgressViewController,toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)  else {
+        guard let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) as? WXProgressViewController,toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)  else {
             return
         }
         if let containerView = transitionContext.containerView() {

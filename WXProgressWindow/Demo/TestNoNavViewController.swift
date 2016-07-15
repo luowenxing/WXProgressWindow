@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TestNoNavViewController:UIViewController,ProgressWindowManagerDelegate {
+class TestNoNavViewController:UIViewController,WXProgressWindowManagerDelegate {
     
     private var timer:NSTimer!
     @IBOutlet weak var labelProgress: UILabel!
@@ -35,18 +35,18 @@ class TestNoNavViewController:UIViewController,ProgressWindowManagerDelegate {
     
     
     //MARK:ProgressWindowManager
-    private lazy var progressManager:ProgressWindowManager! = ProgressWindowManager(rootViewController: self, delegate:self)
+    private lazy var progressManager:WXProgressWindowManager! = WXProgressWindowManager(rootViewController: self, delegate:self)
     
     func currentProgress() -> Float {
         return progress.progress
     }
     
     @IBAction func btnHideTouch(sender: AnyObject) {
-        self.progressManager.showProgressView()
+        self.progressManager.showProgressWindow()
     }
     
     @IBAction func btnCancelTouch(sender: AnyObject) {
-        self.progressManager.dismissProgressView()
+        self.progressManager.dismissProgressWindow()
     }
     
 }

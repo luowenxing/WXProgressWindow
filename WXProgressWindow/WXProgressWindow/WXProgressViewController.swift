@@ -9,20 +9,20 @@
 import Foundation
 import UIKit
 
-class ProgressView:UIView {
+class WXProgressView:UIView {
     
 }
 
-protocol ProgressViewControllerDelegate:NSObjectProtocol {
+protocol WXProgressViewControllerDelegate:NSObjectProtocol {
     func getProgress() -> Float
     func getProgressText() -> String?
     func showRootView()
 }
 
-class ProgressViewController:UIViewController {
+class WXProgressViewController:UIViewController {
     
-    weak var delegate: ProgressViewControllerDelegate?
-    init(delegate:ProgressViewControllerDelegate) {
+    weak var delegate: WXProgressViewControllerDelegate?
+    init(delegate:WXProgressViewControllerDelegate) {
         self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
     }
@@ -36,7 +36,7 @@ class ProgressViewController:UIViewController {
     var arcColor:UIColor = UIColor.hexColor("#1F7FEC")
     lazy var fontSize:CGFloat = self.progressRect.size.width / 8.0 * 3.0
     
-    private lazy var progressView:ProgressView = ProgressView()
+    private lazy var progressView:WXProgressView = WXProgressView()
     private lazy var progressLabel = UILabel()
     private lazy var circleLayer:CAShapeLayer! = self.getCycleLayer(self.cycleColor, startAngle: 0, endAngle: CGFloat(M_PI * 2))
     private var arcLayer:CAShapeLayer?
@@ -71,8 +71,8 @@ class ProgressViewController:UIViewController {
         self.progressView.layer.cornerRadius = self.progressRect.width / 2.0
         self.view.addSubview(progressView)
         
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ProgressViewController.onTap))
-        let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(ProgressViewController.onPan))
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(WXProgressViewController.onTap))
+        let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(WXProgressViewController.onPan))
         self.progressView.addGestureRecognizer(tapRecognizer)
         self.progressView.addGestureRecognizer(panRecognizer)
         
@@ -90,7 +90,7 @@ class ProgressViewController:UIViewController {
     }
     
     func startCADisplayLink() {
-        self.displayLink = CADisplayLink(target: self, selector: #selector(ProgressViewController.updateProgressView))
+        self.displayLink = CADisplayLink(target: self, selector: #selector(WXProgressViewController.updateProgressView))
         self.displayLink.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
     }
     
