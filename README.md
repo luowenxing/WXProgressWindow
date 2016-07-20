@@ -32,4 +32,6 @@ private lazy var progressManager:WXProgressWindowManager = {
 * Call instance function `showProgressWindow()` to hide your view controller and show the progress window.
 * Call instance function `dismissProgressWindow()` to dismiss your view controller and destory progress window.
 
+# Detail
+http://www.jianshu.com/p/34701b334ed7
 
