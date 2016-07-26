@@ -71,8 +71,8 @@ class WXProgressViewController:UIViewController {
         self.progressView.layer.cornerRadius = self.progressRect.width / 2.0
         self.view.addSubview(progressView)
         
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ProgressViewController.onTap))
-        let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(ProgressViewController.onPan))
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(WXProgressViewController.onTap))
+        let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(WXProgressViewController.onPan))
         self.progressView.addGestureRecognizer(tapRecognizer)
         self.progressView.addGestureRecognizer(panRecognizer)
         
@@ -91,7 +91,7 @@ class WXProgressViewController:UIViewController {
     }
     
     func startCADisplayLink() {
-        self.displayLink = CADisplayLink(target: self, selector: #selector(ProgressViewController.updateProgressView))
+        self.displayLink = CADisplayLink(target: self, selector: #selector(WXProgressViewController.updateProgressView))
         self.displayLink.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
     }
     

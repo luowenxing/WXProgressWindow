@@ -42,11 +42,11 @@ class TestViewController:UIViewController,WXProgressWindowManagerDelegate {
     }()
     
     @IBAction func btnHideTouch(sender: AnyObject) {
-        self.progressManager.showProgressWindow()
+        self.progressManager.showProgressView()
     }
 
     @IBAction func btnCancelTouch(sender: AnyObject) {
-        self.progressManager.dismissProgressWindow()
+        self.progressManager.dismissProgressView()
     }
     
     func currentProgress() -> Float {
