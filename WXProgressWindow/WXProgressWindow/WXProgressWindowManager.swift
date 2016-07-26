@@ -76,11 +76,12 @@ class WXProgressWindowManager:NSObject,UIViewControllerTransitioningDelegate,WXP
     }
     
     var status:WXProgressWindowStatus = .InitialView
+    private var prevWindow:UIWindow!
     private weak var rootViewController:UIViewController!
     private weak var delegate:WXProgressWindowManagerDelegate?
-    private lazy var progressVC:WXProgressViewController = WXProgressViewController(delegate: self)
+    private lazy var progressVC:WXProgressViewController! = WXProgressViewController(delegate: self)
     private lazy var snapView:UIView = self.rootViewController.view.snapshotViewAfterScreenUpdates(false)
-    private lazy var window:WXProgressWindow = {
+    private lazy var window:WXProgressWindow! = {
         let window = WXProgressWindow(frame: UIScreen.mainScreen().bounds)
         window.backgroundColor = UIColor.clearColor()
         window.layer.masksToBounds = true
@@ -94,50 +95,41 @@ class WXProgressWindowManager:NSObject,UIViewControllerTransitioningDelegate,WXP
         self.delegate = delegate
     }
     
-    func showProgressWindow() {
+    //MARK:界面切换
+    func showProgressView() {
         if self.status == .InitialView {
             if self.window.hidden {
-                self.window.addSubview(self.snapView)
+                // 使用vc包裹snapView为了使旋转正确。只有vc会处理旋转，view不会。
+                let vc = UIViewController()
+                self.window.rootViewController = vc
+                vc.view.addSubview(self.snapView)
+                vc.view.layoutIfNeeded()
+                
                 self.window.hidden = false
                 // 在window上增加一个snapView防止闪屏
-                self.performSelector(#selector(WXProgressWindowManager.showProgressWindow), withObject: nil, afterDelay: 0.05)
+                self.performSelector(#selector(WXProgressWindowManager.showProgressView), withObject: nil, afterDelay: 0.05)
                 return
             }
             self.status = .RootView
             self.rootViewController.dismissViewControllerAnimated(false) {
                 self.window.rootViewController = self.rootViewController
                 // 防止闪屏
-                self.performSelector(#selector(WXProgressWindowManager.showProgressWindow), withObject: nil, afterDelay: 0)
+                self.performSelector(#selector(WXProgressWindowManager.showProgressView), withObject: nil, afterDelay: 0)
             }
         }
         else if self.status == .RootView{
+            window.windowLevel = UIWindowLevelStatusBar + 1
             self.status = .ProgressView
             self.progressVC.transitioningDelegate = self
             //view已经增加到window上，把snapView remove
             self.snapView.removeFromSuperview()
             self.rootViewController.transitioningDelegate = self
             self.rootViewController.presentViewController(self.progressVC, animated: true) {
-                if self.progressVC.view.window == nil {
-                    // iOS8以上的bug,present之后又present一个view，这个view不会被加到window上，需要手动添加
-                    self.window.addSubview(self.progressVC.view)
-                    self.progressVC.startCADisplayLink()
-                }
+                // iOS8以上的bug,present之后又present一个view，这个view不会被加到window上，需要手动添加
+                self.window.addSubview(self.progressVC.view)
+                self.progressVC.startCADisplayLink()
             }
         }
-    }
-    
-    func getProgress() -> Float {
-        if let delegate = self.delegate {
-            return delegate.currentProgress()
-        }
-        return 0
-    }
-    
-    func getProgressText() -> String? {
-        if let delegate = self.delegate {
-            return delegate.currentProgressText?()
-        }
-        return nil
     }
     
     func showRootView() {
@@ -147,12 +139,13 @@ class WXProgressWindowManager:NSObject,UIViewControllerTransitioningDelegate,WXP
         progressVC.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    func dismissProgressWindow() {
+    func dismissProgressView(complete:(()->Void)? = nil) {
         if self.status == .InitialView {
             self.rootViewController.dismissViewControllerAnimated(true, completion: nil)
         }
         else if self.status == .RootView {
             UIView.animateWithDuration(0.35, delay: 0, options: .CurveEaseInOut , animations: {
+                // 处理iOS7的的window消失动画，因为iOS7的bounds不随系统旋转而改变
                 if NSFoundationVersionNumber < NSFoundationVersionNumber_iOS_8_0 {
                     if self.rootViewController.interfaceOrientation.isPortrait {
                         self.window.frame.origin.y = UIScreen.mainScreen().bounds.height
@@ -167,9 +160,32 @@ class WXProgressWindowManager:NSObject,UIViewControllerTransitioningDelegate,WXP
                 self.window.hidden = true
                 self.window.rootViewController = nil
             }
+        } else {
+            self.window.hidden = true
+            self.progressVC.stopCADisplayLink()
+            self.progressVC.dismissViewControllerAnimated(false) {
+                self.window.rootViewController = nil
+                self.window = nil
+            }
         }
     }
     
+    //MARK:ProgressViewControllerDelegate
+    func getProgress() -> Float {
+        if let delegate = self.delegate {
+            return delegate.currentProgress()
+        }
+        return 0
+    }
+    
+    func getProgressText() -> String? {
+        if let delegate = self.delegate {
+            return delegate.currentProgressText?()
+        }
+        return nil
+    }
+    
+    //MARK:UIViewControllerTransitioningDelegate
     func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return WXProgressCircleTransition(type: .Dismiss)
     }

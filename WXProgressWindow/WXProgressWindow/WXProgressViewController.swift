@@ -39,7 +39,7 @@ class WXProgressViewController:UIViewController {
     private lazy var progressView:WXProgressView = WXProgressView()
     private lazy var progressLabel = UILabel()
     private lazy var circleLayer:CAShapeLayer! = self.getCycleLayer(self.cycleColor, startAngle: 0, endAngle: CGFloat(M_PI * 2))
-    private var arcLayer:CAShapeLayer?
+    private lazy var arcLayer:CAShapeLayer! = self.getCycleLayer(self.arcColor, startAngle: -CGFloat(M_PI_2), endAngle: -CGFloat(M_PI_2))
     private var displayLink:CADisplayLink!
     
     override func viewDidLayoutSubviews() {
@@ -47,7 +47,7 @@ class WXProgressViewController:UIViewController {
         self.circleLayer.frame = self.progressView.bounds
     }
     
-
+    
     override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
         if self.interfaceOrientation.isPortrait != toInterfaceOrientation.isPortrait {
             let size = self.view.frame.size
@@ -71,8 +71,8 @@ class WXProgressViewController:UIViewController {
         self.progressView.layer.cornerRadius = self.progressRect.width / 2.0
         self.view.addSubview(progressView)
         
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(WXProgressViewController.onTap))
-        let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(WXProgressViewController.onPan))
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ProgressViewController.onTap))
+        let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(ProgressViewController.onPan))
         self.progressView.addGestureRecognizer(tapRecognizer)
         self.progressView.addGestureRecognizer(panRecognizer)
         
@@ -86,11 +86,12 @@ class WXProgressViewController:UIViewController {
         self.progressView.addConstraints([constraintX,constraintY])
         
         self.progressView.layer.addSublayer(self.circleLayer)
+        self.progressView.layer.addSublayer(self.arcLayer)
         
     }
     
     func startCADisplayLink() {
-        self.displayLink = CADisplayLink(target: self, selector: #selector(WXProgressViewController.updateProgressView))
+        self.displayLink = CADisplayLink(target: self, selector: #selector(ProgressViewController.updateProgressView))
         self.displayLink.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
     }
     
@@ -102,18 +103,14 @@ class WXProgressViewController:UIViewController {
     func updateProgressView() {
         if let delegate = self.delegate {
             let progress = CGFloat(delegate.getProgress())
-            if let layer = self.arcLayer {
-                layer.removeFromSuperlayer()
-            }
-            let newLayer = self.getCycleLayer(arcColor, startAngle: -CGFloat(M_PI_2), endAngle: CGFloat(M_PI) * 2 * progress - CGFloat(M_PI_2))
-            self.progressView.layer.addSublayer(newLayer)
-            self.arcLayer = newLayer
+            self.arcLayer.path = self.getLayerPath(-CGFloat(M_PI_2), endAngle: CGFloat(M_PI) * 2 * progress - CGFloat(M_PI_2) )
+            self.arcLayer.setNeedsDisplay()
             if let text = delegate.getProgressText() {
                 self.progressLabel.text = text
             } else {
                 self.progressLabel.text = String(Int(progress * 100))
             }
-
+            
         }
     }
     
@@ -127,16 +124,22 @@ class WXProgressViewController:UIViewController {
         self.progressRect = self.progressView.frame
     }
     
-    private func getCycleLayer(color:UIColor,startAngle:CGFloat,endAngle:CGFloat) -> CAShapeLayer {
+    private func getLayerPath(startAngle:CGFloat,endAngle:CGFloat) -> CGPath {
         let width = self.progressRect.size.width
         let lineWidth:CGFloat = width / 8.0
         let radius = (width - lineWidth ) / 2.0
         let center = CGPoint(x: width / 2.0, y: width / 2.0)
-        let path = UIBezierPath(arcCenter:center , radius: radius, startAngle: startAngle, endAngle:endAngle , clockwise:true)
+        return UIBezierPath(arcCenter:center , radius: radius, startAngle: startAngle, endAngle:endAngle , clockwise:true).CGPath
+    }
+    
+    private func getCycleLayer(color:UIColor,startAngle:CGFloat,endAngle:CGFloat) -> CAShapeLayer {
+        let width = self.progressRect.size.width
+        let lineWidth:CGFloat = width / 8.0
         let layer = CAShapeLayer()
         layer.strokeColor = color.CGColor
+        layer.lineCap = "round"
         layer.lineWidth = lineWidth
-        layer.path = path.CGPath
+        layer.path = self.getLayerPath(startAngle, endAngle: endAngle)
         layer.fillColor = UIColor.clearColor().CGColor
         return layer
     }
@@ -153,6 +156,8 @@ class WXProgressViewController:UIViewController {
         self.progressRect = self.progressView.frame
     }
 }
+
+
 
 
 
