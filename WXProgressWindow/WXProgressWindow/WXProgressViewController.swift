@@ -55,7 +55,7 @@ class WXProgressViewController:UIViewController {
         }
     }
     
-    // iOS7 bug
+    // 处理iOS7旋转bug
     override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
         let size = self.view.frame.size
         self.resetProgressViewFrameOnRotate(size.width, toHeight: size.height)
@@ -110,7 +110,6 @@ class WXProgressViewController:UIViewController {
             } else {
                 self.progressLabel.text = String(Int(progress * 100))
             }
-            
         }
     }
     
@@ -120,7 +119,21 @@ class WXProgressViewController:UIViewController {
     
     func onPan(sender:UIPanGestureRecognizer) {
         let point = sender.locationInView(self.view)
+        // 保证悬浮框在边框范围内
+        let prevCenter = self.progressView.center
+        var frame = UIScreen.mainScreen().compatibleBounds
+        frame.origin.y = 20
+        frame.size.height -= 20
         self.progressView.center = point
+        if !frame.contains(self.progressView.frame) {
+            let unionFrame = frame.union(self.progressView.frame)
+            if unionFrame.width > frame.width {
+                self.progressView.center.x = prevCenter.x
+            }
+            if unionFrame.height > frame.height {
+                self.progressView.center.y = prevCenter.y
+            }
+        }
         self.progressRect = self.progressView.frame
     }
     
@@ -144,6 +157,7 @@ class WXProgressViewController:UIViewController {
         return layer
     }
     
+    // 处理旋转
     private func resetProgressViewFrameOnRotate(toWidth:CGFloat,toHeight:CGFloat) {
         let origin = self.progressView.frame.origin
         let size = self.progressView.frame.size

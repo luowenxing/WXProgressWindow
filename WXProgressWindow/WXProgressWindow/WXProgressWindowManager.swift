@@ -99,15 +99,14 @@ class WXProgressWindowManager:NSObject,UIViewControllerTransitioningDelegate,WXP
     func showProgressView() {
         if self.status == .InitialView {
             if self.window.hidden {
-                // 使用vc包裹snapView为了使旋转正确。只有vc会处理旋转，view不会。
+                // 在window设置rootVC为snapViewVC，防止闪屏
+                // 使用vc包裹snapView为了使旋转正确。只有vc会处理旋转，view不会。此处也可自行处理旋转后直接window.addSubview
                 let vc = UIViewController()
-                self.window.rootViewController = vc
                 vc.view.addSubview(self.snapView)
                 vc.view.layoutIfNeeded()
-                
                 self.window.hidden = false
-                // 在window上增加一个snapView防止闪屏
-                self.performSelector(#selector(WXProgressWindowManager.showProgressView), withObject: nil, afterDelay: 0.05)
+                self.window.rootViewController = vc
+                self.performSelector(#selector(WXProgressWindowManager.showProgressView), withObject: nil, afterDelay: 0)
                 return
             }
             self.status = .RootView
@@ -118,12 +117,10 @@ class WXProgressWindowManager:NSObject,UIViewControllerTransitioningDelegate,WXP
             }
         }
         else if self.status == .RootView{
-            window.windowLevel = UIWindowLevelStatusBar + 1
             self.status = .ProgressView
             self.progressVC.transitioningDelegate = self
-            //view已经增加到window上，把snapView remove
-            self.snapView.removeFromSuperview()
             self.rootViewController.transitioningDelegate = self
+            //设置transitionDelegate后present就有自定义动画效果
             self.rootViewController.presentViewController(self.progressVC, animated: true) {
                 // iOS8以上的bug,present之后又present一个view，这个view不会被加到window上，需要手动添加
                 self.window.addSubview(self.progressVC.view)
@@ -133,7 +130,6 @@ class WXProgressWindowManager:NSObject,UIViewControllerTransitioningDelegate,WXP
     }
     
     func showRootView() {
-        window.windowLevel = UIWindowLevelNormal
         progressVC.stopCADisplayLink()
         self.status = .RootView
         progressVC.dismissViewControllerAnimated(true, completion: nil)

@@ -36,10 +36,7 @@ class TestViewController:UIViewController,WXProgressWindowManagerDelegate {
     
     //MARK:ProgressWindowManager
     
-    private lazy var progressManager:WXProgressWindowManager = {
-        let manager = WXProgressWindowManager(rootViewController: self.navigationController!, delegate: self)
-        return manager
-    }()
+    private lazy var progressManager:WXProgressWindowManager = WXProgressWindowManager(rootViewController: self.navigationController!, delegate: self)
     
     @IBAction func btnHideTouch(sender: AnyObject) {
         self.progressManager.showProgressView()
